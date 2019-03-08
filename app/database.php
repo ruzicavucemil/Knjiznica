@@ -140,17 +140,77 @@
         }
     }
 
+    // Kreiranje nove knjige iz admin sučelja na osnovu prosljedenih
+    // parametara iz forme.
+    function createBook($naslov, $pisac, $isbn, $brojStranica, $cijena, $sadrzaj, $slika){
+        global $conn;
+
+        // Upload-anu sliku premjesta u assets folder.
+        // basename oznaca samo da joj se uzme naziv, a ne putanja.
+        // Umjesto "c:/moje_slike/macka.png se uzima samo macka.png
+        $target_dir = "assets/";
+        $target_file = $target_dir . basename($slika["name"]);
+        move_uploaded_file($slika["tmp_name"], $target_file);
+
+        // Unos nove knjige u bazu podataka.
+        $sql  = "INSERT INTO knjiga (naslov, pisac, isbn, brojStranica, cijena, sadrzaj, slika) VALUES ";
+        $sql .= "('".$naslov."','".$pisac."','".$isbn."','".$brojStranica."','".$cijena."','".$sadrzaj."','".$slika['name']."')";
+
+        if ($conn->query($sql) === TRUE) {
+            return true;
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
+
+    // Nadopuna informacija o knjizi iz admin sučelja na osnovu
+    // prosljedjenog parametra.
+    // Funkcija prima ID knjige, naziv stupca i nova vrijednost za taj stupac.
+    function updateBook($idKnjige, $nazivStupca, $novaVrijednost){
+        global $conn;
+
+        // Unos nove knjige u bazu podataka.
+        $sql  = "UPDATE knjiga SET ".$nazivStupca."='".$novaVrijednost."' ";
+        $sql .= "WHERE idknjiga='".$idKnjige."' ";
+
+        if ($conn->query($sql) === TRUE) {
+            return 'izmjenjeno';
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
+
+    // Pri kupovini knjiga, pošalje se kolačić u
+    // obliku JSON formata i spreme se kupljene knjige u bazu
+    // podataka.
+    function buyBooks($books){
+        global $conn;
+
+        $ukupna_cijena = 0.0;
+        $broj_kupljenih_knjiga = 0;
+
+        foreach ($books as $book) {
+            $ukupna_cijena += floatval($book['price']);
+            $broj_kupljenih_knjiga++;
+        }
+
+        // Unos kupovine u bazu podataka.
+        $sql  = "INSERT INTO racun (ukupnaCijena, brojKupljenihKnjiga) VALUES ";
+        $sql .= "('".$ukupna_cijena."','".$broj_kupljenih_knjiga."')";
+
+        if ($conn->query($sql) === TRUE) {
+            return true;
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+
+    }
+
     // Otpusti konekciju sa baze podataka.
     function closeConnection(){
         global $conn;
         $conn->close();
         $conn = null;
     }
-
-    
-
-    
-
-
 
 ?>
