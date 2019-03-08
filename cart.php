@@ -94,24 +94,23 @@ include 'app/session.php';
 
         $("ul.collection").append(li);
 
+        // Klikom na kupovina, šalje se request na buy_books.php . Request prima
+        // sve knjige kao JSON format i sprema ih u tablicu 'racun'.
         document.querySelector(".kupovina").addEventListener('click', function(){
+            
             booksJSON = Cookies.get('books');
+            
             if(booksJSON.length == 0){
                 return;
             }
+            
             Cookies.remove('books');
 
             $.ajax({
                     type: "POST",
                     url: 'https://moja-knjizaraa.000webhostapp.com/partials/buy_books.php',
                     dataType: 'json',
-                    data: booksJSON,
-                    success: function(e){
-                        console.log("nada prof");
-                    },
-                    error: function(e){
-                        console.log(e.responseText);
-                    }
+                    data: booksJSON
             })
 
             location.reload();
