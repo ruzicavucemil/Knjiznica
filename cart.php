@@ -1,4 +1,6 @@
-<?php include 'app/session.php'; ?>
+<?php 
+include 'app/session.php'; 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +41,7 @@
     <div class="row">
         <div class="col s3"></div>
         <div class="col s6 center-align">
-            <a class="waves-effect waves-light btn kupovina"><i class="material-icons left">attach_money</i>Kupovina</a>
+            <a class="waves-effect waves-light btn blue darken-1 kupovina"><i class="material-icons left">attach_money</i>Kupovina</a>
         </div>
         <div class="col s3"></div>
     </div>
@@ -93,7 +95,25 @@
         $("ul.collection").append(li);
 
         document.querySelector(".kupovina").addEventListener('click', function(){
+            booksJSON = Cookies.get('books');
+            if(booksJSON.length == 0){
+                return;
+            }
             Cookies.remove('books');
+
+            $.ajax({
+                    type: "POST",
+                    url: 'https://moja-knjizaraa.000webhostapp.com/partials/buy_books.php',
+                    dataType: 'json',
+                    data: booksJSON,
+                    success: function(e){
+                        console.log("nada prof");
+                    },
+                    error: function(e){
+                        console.log(e.responseText);
+                    }
+            })
+
             location.reload();
         });
     </script>

@@ -19,7 +19,11 @@
         // Ako je prijava uspješna, prijavljeni korisnik
         // se preusmjerava na početnu stranicu.
         if($redirect_){
-            header('Location: '.URL.'index.php');
+            if($_SESSION['email'] == 'admin@gmail.com'){
+                header('Location: '.URL.'admin.php');
+            }else{
+                header('Location: '.URL.'index.php');
+            }
         }
 
     }else{ // GET request
@@ -77,7 +81,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <button class="btn waves-effect waves-light" type="submit" name="submit">Prijava
+                    <button class="btn waves-effect waves-light blue darken-1" type="submit" name="submit">Prijava
                         <i class="material-icons right">send</i>
                     </button>
                 </div>
