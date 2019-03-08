@@ -16,6 +16,17 @@
         }
     }
 
+    // Pomoćna funkcija za provjeravanje da li je
+    // prijavljenji korisnik admin.
+    function checkAdminSession(){
+        if(isset($_SESSION['email'])){
+            if($_SESSION['email'] == 'admin@gmail.com'){
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Nakon odjave, izbriši sesiju.
     function removeSession(){
         unset($_SESSION['email']);
