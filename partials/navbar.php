@@ -4,12 +4,12 @@
 
     if(checkSession()){ ?>
         <ul id="dropdown1" class="dropdown-content">
-            <li><a href="<?php echo 'logout.php'; ?>">Odjava</a></li>
+            <li><a class="blue-text text-darken-1" href="<?php echo 'logout.php'; ?>">Odjava</a></li>
         </ul>
     <?php }else{ ?>
         <ul id="dropdown1" class="dropdown-content">
-            <li><a href="<?php echo 'login.php'; ?>">Prijava</a></li>
-            <li><a href="<?php echo 'register.php'; ?>">Registracija</a></li>
+            <li><a class="blue-text text-darken-1" href="<?php echo 'login.php'; ?>">Prijava</a></li>
+            <li><a class="blue-text text-darken-1" href="<?php echo 'register.php'; ?>">Registracija</a></li>
         </ul>
 <?php } ?>
 <nav class="blue darken-1">
